@@ -1,10 +1,13 @@
-from flask import Flask , render_template , request , redirect , url_for , session , flash , g
+from flask import Flask , render_template , request , redirect , url_for , session , flash
 from functools import wraps
-import sqlite3
+from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
 app.secret_key = '_5#y2L"F4Q8z\n\xec]/'
-app.database = "sample.db"
+app.config["SQLALCHEMY_DATABASE_URI"] = 'sqlite:///posts.db'
+
+db = SQLAlchemy(app)
+
 
 def needs_loggin(func):
     @wraps(func)
@@ -20,11 +23,7 @@ def needs_loggin(func):
 @app.route("/")
 @needs_loggin
 def home():
-    g.db = db_connect()
-    cur = g.db.execute('select * from posts')
-    #posts = {row[0]: row[1] for row in cur.fetchall()} 
-    posts = [dict(title=row[0], description=row[1]) for row in cur.fetchall()]
-    g.db.close()
+    posts = db.session.query(BlogPost).all()
     return render_template("index.html" , posts=posts)
 
 @app.route("/welcome")
@@ -50,8 +49,9 @@ def logout():
     flash("You were just logged out")
     return redirect(url_for("welcome"))
 
-def db_connect():
-    return sqlite3.connect(app.database)
+
+from models import *
+
 
 if __name__ == "__main__":
     app.run(debug=True)
