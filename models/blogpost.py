@@ -9,9 +9,9 @@ class BlogPost(db.Model):
     title = db.Column(db.String , nullable=False)
     description = db.Column(db.String , nullable=False)
     author_id = db.Column(db.Integer , ForeignKey("users.id"))
-   
+    description = db.Column(db.Text , nullable=False)
 
-    def __init__(self , title , description):
-        self.title = title
-        self.description = description
+ #  def __init__(self , title , description):
+  #      self.title = title
+   #     self.description = description
 

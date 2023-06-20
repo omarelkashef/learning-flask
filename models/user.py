@@ -11,7 +11,7 @@ class User(db.Model):
     password = db.Column(db.String , nullable=False)
     posts = relationship("BlogPost" , backref = "author")
 
-    def __init__(self, name, email, password):
-        self.name = name
-        self.email = email
-        self.password = password
+#    def __init__(self, name, email, password):
+ #       self.name = name
+  #      self.email = email
+   #     self.password = password
