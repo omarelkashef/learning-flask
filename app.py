@@ -2,11 +2,15 @@ from flask import Flask , render_template , request , redirect , url_for , sessi
 from functools import wraps
 from models.blogpost import *
 import os
+from flask_migrate import Migrate
+
 
 app = Flask(__name__)
 app.config.from_object(os.environ["APP_SETTINGS"])
 
 db.init_app(app)
+
+migrate = Migrate(app , db)
 
 
 def needs_login(func):
