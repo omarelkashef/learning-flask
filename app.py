@@ -1,9 +1,8 @@
 from flask import Flask , render_template , request , redirect , url_for , session , flash
-from functools import wraps
 from models.blogpost import *
 import os
 from flask_migrate import Migrate
-from utils.bcrypt import bcrypt
+from views.users.users import bcrypt , needs_login , users_blueprint
 
 
 app = Flask(__name__)
@@ -11,21 +10,9 @@ app.config.from_object(os.environ["APP_SETTINGS"])
 
 db.init_app(app)
 bcrypt.init_app(app)
+app.register_blueprint(users_blueprint)
 
 migrate = Migrate(app , db)
-
-
-
-def needs_login(func):
-    @wraps(func)
-    def wrapper(*args,**kwargs):
-        if "logged_in" in session.keys():
-            return func(*args,**kwargs)
-        else:
-            flash("You need to log in")
-            return redirect(url_for("login"))
-    return wrapper
-
 
 @app.route("/")
 @needs_login
