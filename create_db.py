@@ -24,7 +24,7 @@ with app.app_context():
     author_id = User.query.filter_by(name='Essam').first().id
     post = BlogPost(title="Excellent", description="I\'m excellent.",author_id=author_id)
     db.session.add(post)
-    author = User(name="Elkashef",email="elkashef@elkashef.com",password="1234")
+    author = User(name="Elkashef",email="elkashef@elkashef.com",password="5678")
     db.session.add(author)
     author_id = User.query.filter_by(name='Elkashef').first().id
     post = BlogPost(title="Postgress", description="Added Postgress.",author_id=author_id)
