@@ -12,6 +12,8 @@ app.config.from_object(os.environ["APP_SETTINGS"])
 
 login_manager = LoginManager()
 login_manager.login_view = "users.login"
+login_manager.login_message = "You need to log in"
+
 
 db.init_app(app)
 bcrypt.init_app(app)
