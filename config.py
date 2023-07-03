@@ -5,6 +5,12 @@ class BaseConfig(object):
     SECRET_KEY = os.urandom(24)
     SQLALCHEMY_DATABASE_URI = os.environ["DATABASE_URI"]
 
+class TestConfig(object):
+    DEBUG = True
+    TESTING = True
+    WTF_CSRF_ENABLED = False
+    SQLALCHEMY_DATABASE_URI = 'sqlite:///:memory:'
+
 class DevelopmentConfig(BaseConfig):
     DEBUG = True
 
