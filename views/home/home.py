@@ -1,7 +1,6 @@
-from flask import Flask , render_template , request , redirect,\
-     url_for , session , flash , Blueprint
+from flask import Flask , render_template , Blueprint
 from database.database import db
-from .. import needs_login
+from .. import login_required
 from models import BlogPost
 
 
@@ -11,7 +10,7 @@ home_blueprint = Blueprint(
 )
 
 @home_blueprint.route("/")
-@needs_login
+@login_required
 def home():
     posts = db.session.query(BlogPost).all()
     return render_template("home/index.html" , posts=posts)

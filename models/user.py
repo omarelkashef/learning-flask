@@ -1,8 +1,9 @@
 from database.database import db
 from sqlalchemy.orm import relationship
 from utils.bcrypt import bcrypt
+from flask_login import UserMixin
 
-class User(db.Model):
+class User(db.Model , UserMixin):
 
     __tablename__ = "users"
     id = db.Column(db.Integer , primary_key=True)
@@ -26,8 +27,9 @@ class User(db.Model):
         #password =  bcrypt.generate_password_hash(password)
        # kwargs["password"] = bcrypt.generate_password_hash(kwargs.get("password",None))
         super(User,self).__init__(**kwargs)
+  
 
-   # def __init__(self, name, email, password):
+  # def __init__(self, name, email, password):
     #    self.name = name
      #   self.email = email
       #  self.password = password
