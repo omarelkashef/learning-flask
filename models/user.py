@@ -8,17 +8,18 @@ class User(db.Model):
     id = db.Column(db.Integer , primary_key=True)
     name = db.Column(db.String , nullable=False)
     email = db.Column(db.String , nullable=False)
-    password_hash = db.Column(db.String , nullable=False)
+    password_hash = db.Column(db.String(128) , nullable=False)
     posts = relationship("BlogPost" , backref = "author")
   #  test = db.Column(db.Boolean , nullable=True)
 
     @property
     def password(self):
-        raise AttributeError("password is not readable")
+       # raise AttributeError("password is not readable")
+       return self.password_hash
 
     @password.setter
     def password(self, password):
-        self.password_hash = bcrypt.generate_password_hash(password)
+        self.password_hash = bcrypt.generate_password_hash(password,10).decode("utf-8")
 
 
     def __init__(self , **kwargs):
