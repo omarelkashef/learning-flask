@@ -1,7 +1,7 @@
-from app import app
+from app import app , db
 import unittest
 from flask_testing import TestCase
-from app import app , db
+from app import app
 from models import BlogPost , User
 from flask_login import current_user
 
