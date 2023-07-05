@@ -2,5 +2,5 @@ venv
 *.pyc
 *.db
 .DS_Store
-coverage
+my_coverage.py
 .coverage

@@ -46,7 +46,7 @@ def register():
         db.session.commit()
         login_user(user)
         if form.errors:
-            return render_template("user/register.html" , form=RegisterForm(request.form),error=error)
+            return render_template("user/register.html" , form=RegisterForm(request.form),error=form.errors)
         return redirect(url_for("home.home"))
     return render_template("users/register.html" , form=form)
 
