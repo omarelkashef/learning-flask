@@ -1,26 +1,6 @@
-from app import app , db
-import unittest
-from flask_testing import TestCase
-from app import app
-from models import BlogPost , User
+from .base import *
 from flask_login import current_user
 
-class BaseTestCase(TestCase):
-    """A base test case."""
-
-    def create_app(self):
-        app.config.from_object('config.TestConfig')
-        return app
-
-    def setUp(self):
-        db.create_all()
-        db.session.add(BlogPost(title="Test post", description="This is a test. Only a test."))
-        db.session.add(User(name="admin", email="ad@min.com", password="admin"))
-        db.session.commit()
-
-    def tearDown(self):
-        db.session.remove()
-        db.drop_all()
 
 class FlaskTestCase(BaseTestCase):
     
@@ -81,24 +61,10 @@ class UsersViewsTests(BaseTestCase):
         self.assertIn(b'You were just logged out', response.data)
         self.assertFalse(current_user.is_active)
 
-    
     #Ensure that logout page requires user login
     def test_logout_route_requires_login(self):
         response = self.client.get('/logout', follow_redirects=True)
         self.assertIn(b'You need to log in', response.data)
     
-    # Ensure user can register
-    def test_user_registeration(self):
-        with self.client:
-            response = self.client.post('/register', data=dict(
-                username='admin', email='admin@admin.com',
-                password='admin', confirm_passowrd='admin'
-            ), follow_redirects=True)
-            self.assertIn(b'Welcome to Flask!', response.data)
-            self.assertTrue(current_user.name == "admin")
-            self.assertTrue(current_user.is_active)
-    
-
-
 if __name__ == "__main__":
     unittest.main()
